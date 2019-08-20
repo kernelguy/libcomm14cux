@@ -28,7 +28,7 @@
 
 #include "comm14cux.h"
 #include "comm14cux_internal.h"
-#include "comm14cux_version.h"
+#include "../comm14cux_version.h"
 
 /**
  * Swaps multibyte big-endian data (from the ECU) into the local endianness.
@@ -283,20 +283,25 @@ bool c14cux_openSerial(c14cux_info* info, const char* devPath, unsigned int baud
     // Linux requires an ioctl() to set a nonstandard baud rate
     if (success)
     {
-      struct serial_struct serial_info;
-      dprintf_info("14CUX(info): Setting custom baud rate...\n");
+        if (memcmp(devPath, "/dev/rfcomm", 11) == 0) {
+            dprintf_info("14CUX(info): Bluetooth device detected. Skipping custom baud rate...\n");
+            retVal = true;
+        } else {
+            struct serial_struct serial_info;
+            dprintf_info("14CUX(info): Setting custom baud rate...\n");
 
-      if (ioctl(info->sd, TIOCGSERIAL, &serial_info) != -1)
-      {
-        serial_info.flags = ASYNC_SPD_CUST | ASYNC_LOW_LATENCY;
-        serial_info.custom_divisor = serial_info.baud_base / baud;
+            if (ioctl(info->sd, TIOCGSERIAL, &serial_info) != -1)
+            {
+                serial_info.flags = ASYNC_SPD_CUST | ASYNC_LOW_LATENCY;
+                serial_info.custom_divisor = serial_info.baud_base / baud;
 
-        if (ioctl(info->sd, TIOCSSERIAL, &serial_info) != -1)
-        {
-          dprintf_info("14CUX(info): Baud rate setting successful.\n");
-          retVal = true;
+                if (ioctl(info->sd, TIOCSSERIAL, &serial_info) != -1)
+                {
+                    dprintf_info("14CUX(info): Baud rate setting successful.\n");
+                    retVal = true;
+                }
+            }
         }
-      }
     }
 
 #elif defined(__APPLE__)

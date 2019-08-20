@@ -57,14 +57,14 @@ set (CPACK_SOURCE_IGNORE_FILES
       "bin/lib.*"
       "bin/read14cux"
       "bin/write14cux"
-      "src/comm14cux_version.h$")
+      "comm14cux_version.h$")
 
 option (ENABLE_DOC_INSTALL "Enables installation of documentation (README, LICENSE, manpage) to the appropriate locations" ON)
 option (ENABLE_TESTAPP_INSTALL "Enables installation of the read14cux/write14cux utilities" ON)
 
 configure_file (
   "${SOURCE_SUBDIR}/comm14cux_version.h.in"
-  "${CMAKE_BINARY_DIR}/comm14cux_version.h"
+  "${CMAKE_SOURCE_DIR}/comm14cux_version.h"
   )
 
 set (LIBCOMM14CUX_PC "${CMAKE_BINARY_DIR}/libcomm14cux.pc")
@@ -124,7 +124,7 @@ if (MINGW)
   target_link_libraries (write14cux comm14cux)
 
   install (FILES "${SOURCE_SUBDIR}/comm14cux.h"
-                 "${CMAKE_BINARY_DIR}/comm14cux_version.h"
+                 "${CMAKE_SOURCE_DIR}/comm14cux_version.h"
            DESTINATION "${INSTALL_INC_DIR}")
   install (FILES "${BINDIR}/${LIBNAME}"
            DESTINATION "${LIB_DESTINATION_DIR}")
@@ -206,7 +206,7 @@ else()
   # set the installation destinations for the header files,
   # shared library binaries, and reference utility
   install (FILES "${SOURCE_SUBDIR}/comm14cux.h"
-                 "${CMAKE_BINARY_DIR}/comm14cux_version.h"
+                 "${CMAKE_SOURCE_DIR}/comm14cux_version.h"
            DESTINATION "${INSTALL_INC_DIR}"
            PERMISSIONS
             OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)

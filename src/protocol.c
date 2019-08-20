@@ -9,6 +9,7 @@
 #endif
 
 #include <unistd.h>
+#include <stdint.h>
 
 #if defined(WIN32)
 #include <windows.h>

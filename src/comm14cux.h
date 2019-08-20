@@ -24,7 +24,7 @@
 /** Combination of all the available debug flags */
 #define DEBUG_ALL  7
 
-//#define DEBUG_P DEBUG_ALL
+#define DEBUG_P DEBUG_ALL
 
 #ifdef DEBUG_P
 #include <stdio.h>

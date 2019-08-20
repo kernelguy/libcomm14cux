@@ -5,7 +5,8 @@ CPackSourceConfig.cmake
 Makefile
 _CPack_Packages/
 cmake_install.cmake
-src/comm14cux_version.h
+comm14cux_version.h
+libcomm14cux.pc
 docs/
 bin/
 install_manifest.txt
@@ -20,3 +21,5 @@ LICENSE.txt
 README.txt
 build/
 build-win32/
+.cproject
+.project
